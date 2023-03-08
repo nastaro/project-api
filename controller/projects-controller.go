@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nastaro/project-api/database"
@@ -17,28 +18,36 @@ func SayHi(c *gin.Context) {
 }
 
 func AddProject(c *gin.Context) {
-	// id := models.Identifier{}
-	// Create id
-	id := models.Identifier{}
-	database.DB.Create(&id)
-
 	project := models.Project{}
-	project.PCode = "P" + fmt.Sprintf("%05d", id.ID)
+
 	if err := c.BindJSON(&project); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Bad Request, Please validate your input"})
 	} else {
-		project.Status = "Active"
-		if err := database.DB.Unscoped().Create(&project).Error; err != nil {
-			log.Fatal(err)
-			c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
-		} else {
-			c.JSON(http.StatusCreated, gin.H{
-				"pCode":       project.PCode,
-				"projectName": project.ProjectName,
-				"dCode":       project.Dcode,
-				"ownerName":   project.OwnerName,
-				"status":      project.Status,
+
+		if !ValidateDcode(project.Dcode) {
+			c.JSON(http.StatusNotFound, gin.H{
+				"Error": "dCode does not exist",
 			})
+		} else {
+
+			// Create id
+			id := models.Identifier{}
+			database.DB.Create(&id)
+			project.PCode = "P" + fmt.Sprintf("%05d", id.ID)
+
+			project.Status = "Active"
+			if err := database.DB.Unscoped().Create(&project).Error; err != nil {
+				log.Fatal(err)
+				c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
+			} else {
+				c.JSON(http.StatusCreated, gin.H{
+					"pCode":       project.PCode,
+					"projectName": project.ProjectName,
+					"dCode":       project.Dcode,
+					"ownerName":   project.OwnerName,
+					"status":      project.Status,
+				})
+			}
 		}
 	}
 }
@@ -78,4 +87,20 @@ func GetProjectByPcode(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": &project})
+}
+
+func ValidateDcode(dCode string) bool {
+	departmentURL := "https://department.training.dillen.dev/api/departments/" + dCode
+	response, err := http.Get(departmentURL)
+
+	if err != nil {
+		fmt.Print(err.Error())
+		os.Exit(1)
+	}
+
+	if response.StatusCode == 200 {
+		return true
+	} else {
+		return false
+	}
 }
