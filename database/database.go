@@ -1,12 +1,13 @@
 package database
 
 import (
+	"log"
+	"os"
+
 	"github.com/joho/godotenv"
 	"github.com/nastaro/project-api/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
-	"os"
 )
 
 var DB *gorm.DB
@@ -24,6 +25,6 @@ func ConnectDb() {
 			panic(err)
 		}
 	}
-	db.AutoMigrate(&models.Project{})
+	db.AutoMigrate(&models.Project{}, models.Identifier{})
 	DB = db
 }
