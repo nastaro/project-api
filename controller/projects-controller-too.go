@@ -11,7 +11,7 @@ import (
 func UpdateProject(c *gin.Context) {
 	// Get project if exist
 	var project models.Project
-	if err := database.DB.Where("pCode = ?", c.Param("pCode")).First(&project).Error; err != nil {
+	if err := database.DB.Where("p_code = ?", c.Param("pCode")).First(&project).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"Error": "Project not found!"})
 		return
 	}
@@ -31,7 +31,7 @@ func UpdateProject(c *gin.Context) {
 func GetProjectByPcode(c *gin.Context) {
 	var project models.Project
 
-	if err := database.DB.Where("pCode = ?", c.Param("pCode")).Find(&project).Error; err != nil {
+	if err := database.DB.Where("p_code = ?", c.Param("pCode")).Find(&project).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No project found :("})
 		return
 	}

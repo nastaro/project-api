@@ -1,9 +1,9 @@
 package controller
 
 import (
+	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nastaro/project-api/database"
@@ -17,7 +17,7 @@ func AddProject(c *gin.Context) {
 	database.DB.Create(&id)
 
 	project := models.Project{}
-	project.PCode = "P" + strconv.Itoa(id.ID)
+	project.PCode = "P" + fmt.Sprintf("%05d", id.ID)
 	if err := c.BindJSON(&project); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Bad Request, Please validate your input"})
 	} else {
