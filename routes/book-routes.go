@@ -8,7 +8,6 @@ import (
 func ExecuteBookRequest(router *gin.Engine) {
 	router.POST("/api/projects", controller.AddProject)
 	router.GET("/api/projects", controller.GetProject)
-	// router.GET("/books/:id", controller.ShowBookById)
-	// router.GET("/books/:id/review", controller.ShowBookById)
-	// router.POST("/books/:id/review", controller.AddReview)
+	router.PATCH("/api/projects/:pCode", controller.UpdateProject)
+	router.GET("/api/projects/:pCode", controller.GetProjectByPcode)
 }
