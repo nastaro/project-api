@@ -1,10 +1,10 @@
 package database
 
 import (
-	"log"
+	// "log"
 	"os"
 
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 	"github.com/nastaro/project-api/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -13,10 +13,10 @@ import (
 var DB *gorm.DB
 
 func ConnectDb() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	db, err := gorm.Open(postgres.Open(os.Getenv("DBK8s")), &gorm.Config{})
 	if err != nil {

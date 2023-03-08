@@ -6,6 +6,7 @@ import (
 )
 
 func ExecuteBookRequest(router *gin.Engine) {
+	router.GET("/", controller.SayHi)
 	router.POST("/api/projects", controller.AddProject)
 	router.GET("/api/projects", controller.GetProject)
 	router.PATCH("/api/projects/:pCode", controller.UpdateProject)

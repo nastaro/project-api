@@ -1,0 +1,13 @@
+image:
+  repository: ghcr.io/training-mini-cloud/nastaro/project-api-woensdag
+  pullPolicy: Always
+  tag: latest
+
+databases: 
+  
+service:
+  port: 8080  
+
+config:
+  DBK8s: postgres://projects:yKV7ElDYP7txEBJNpT1xvhUNMn4Z11bOqIW8J3O51BpHqisvsOdG04GiKZc4EfqB@wed-project-api-api-service-database/projects
+  

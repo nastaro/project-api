@@ -10,6 +10,12 @@ import (
 	"github.com/nastaro/project-api/models"
 )
 
+func SayHi(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"status": "Hi there, Welcome to EdLand !!",
+	})
+}
+
 func AddProject(c *gin.Context) {
 	// id := models.Identifier{}
 	// Create id
