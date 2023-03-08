@@ -27,6 +27,7 @@ func AddProject(c *gin.Context) {
 	if err := c.BindJSON(&project); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Bad Request, Please validate your input"})
 	} else {
+		project.Status = "Active"
 		if err := database.DB.Unscoped().Create(&project).Error; err != nil {
 			log.Fatal(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Internal Server Error"})
@@ -36,6 +37,7 @@ func AddProject(c *gin.Context) {
 				"projectName": project.ProjectName,
 				"dCode":       project.Dcode,
 				"ownerName":   project.OwnerName,
+				"status":      project.Status,
 			})
 		}
 	}
