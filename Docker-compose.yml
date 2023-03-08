@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: departments
+      POSTGRES_DB: projects
     volumes:
       - data:/var/lib/postgresql/data
 
