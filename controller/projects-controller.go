@@ -86,7 +86,7 @@ func GetProjectByPcode(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": &project})
+	c.JSON(http.StatusOK, &project)
 }
 
 func ValidateDcode(dCode string) bool {
